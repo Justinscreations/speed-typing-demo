@@ -1,5 +1,8 @@
 // declare and define variables that refer to HTML elements
-
+let btn = document.querySelector(".startBtn");
+let time = document.querySelector(".time");
+let score = document.querySelector(".score")
+let test = document.querySelector(".test")
 
 // running time of the timer (during an iteration when the value changes)
 // necessary for countdown functionality
@@ -17,7 +20,7 @@ let game_active = false;
 
 // make your list of test words here
 // you may change the existing words
-let list = ["the","quick","brown","fox","jumps","over","the","lazy","dog"];
+let list = ["the","quick","brown","fox","jumps","over","the","lazy","dog", "run", "stop", "scare", "tall", "black", "power"];
 
 /*
  *
@@ -25,7 +28,36 @@ let list = ["the","quick","brown","fox","jumps","over","the","lazy","dog"];
  * 
  */
 
+function countdown() {
+    timer = setInterval(function(){
+        seconds = seconds - 1;
+        curr_time.innerHTML = seconds;
 
+        // timer ends
+        if(seconds <= 0) {
+            //ending alert;
+            alert("Game over! Your score was " + points)
+
+            // reset all HTML
+
+            score.innerHTML = "0";
+            test.innerHTML = "";
+            time.innerHTML = "60";
+
+            game_active = false;
+
+            clearInterval(timer);
+            seconds = 60;
+            points = 0;
+        }
+
+    }, 1000); //runs every one second
+
+
+
+
+
+}
 
 
 
@@ -36,6 +68,40 @@ let list = ["the","quick","brown","fox","jumps","over","the","lazy","dog"];
  * random_word()
  * 
  */
+
+function random_word() {
+    //generates a random number
+    let random = Math.floor(Math.random() * list.length);
+    // splits random word into its characters
+    let word  = list[random].split("");    
+
+    //clears any previous words/characters
+    test.innerHTML = "";
+
+
+    // creates the words letter by letter
+    for( let i = 0; i < word.length; i++) {
+        // create an inline span container for the letter
+        let span = document.createElement("span");
+        // creates a class that applies to all the spans that make up the word
+        span.classList.add("span");
+
+        span.style.border = "solid red";
+
+        // changes HTML of the span to show each letter
+        span.innerHTML = word[i];
+        test.appendChild(span);
+    }
+
+
+    //defines a variable that refers to all spans
+
+    spans = document.querySelectorAll(".span");
+}
+
+
+
+
 
 
 
@@ -60,7 +126,7 @@ btn.addEventListener("click", function() {
     // uses/calls function that allow for countdown timer
     // uses/calls function for random word generation
     countdown();
-    random_word();
+   random_word();
 });
 
 /*
@@ -70,7 +136,18 @@ btn.addEventListener("click", function() {
  */
 
 
-
+function typing(event) {
+    typed = event.key
+    for (let i = 0; i < spans.length; i++) {
+        if (spans[i].innerHTML === typed) {
+            if ((spans[i].classList.contains("background") === false) && 
+        (spans[i-1] === undefined || spans[i-1].classList.contains("background") === true)) {
+            spans[i].classList.add("background");
+            break;
+        }
+        }
+    }
+}
 
 
 
