@@ -147,8 +147,30 @@ function typing(event) {
         }
         }
     }
+    let checker = 0
+for (let j = 0; j < spans.length; j++) {
+    if (spans[j].className === "span background") {
+        checker++;
+    }
+
+    if (checker == spans.length) {
+        points = points + 1;
+        score.innerHTML = points;
+
+
+        document.removeEventListener("keydown", typing, false);
+
+        setTimeout(function(){
+            random_word();
+            document.addEventListener("keydown", typing, false)
+        }, 200)
 }
 
+
+
+
+    }
+}
 
 
 
